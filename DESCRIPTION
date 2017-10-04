@@ -1,0 +1,22 @@
+Package: collateral
+Type: Package
+Title: Reproducible, comfortable and fast processing with R
+Version: 0.1.0
+Date: 2017-10-01
+Authors: "Fabian Raters <mail@ratmaster.de> [aut, cre]"
+Maintainer: Fabian Raters <mail@ratmaster.de>
+Description: Useful functions for dealing with processes and parallelization.
+Depends:
+    R (>= 3.1.2)
+Imports:
+    digest,
+    memoise,
+    parallel,
+    R6,
+    tools
+Suggests:
+    testthat
+License: MIT + file LICENSE
+LazyData: TRUE
+ByteCompile: TRUE
+RoxygenNote: 6.0.1
