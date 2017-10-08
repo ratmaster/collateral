@@ -9,16 +9,27 @@ Recorder  <-
         private$Y <- emptylist(along = X)
 
         # hash objects
-        sd <- digest(seed, algo = "md5")
-        xd <- digest(X, algo = "md5")
-        fd <- digest(list(formals(FUN), body(FUN)), algo = "md5")
-        path <- paste0("tmp/", sd, "_", xd, "_", fd)
-
-        # ensure that folder exists
-        if (!dir.exists(path)) {
+        csum <- digest(list(seed, X, formals(FUN), body(FUN)),
+                       algo = "sha512")
+        if (file.exists("tmp/collateral")) {
+          x <- read.dcf("tmp/collateral")
+          index <- as.list(x)
+          names(index) <- colnames(x)
+          path <- index[[csum]]
+        } else {
+          path <- NULL
+        }
+        if (is.null(path)) {
+          path <- tempfile(pattern = "", tmpdir = "tmp")
+          # ensure that folder exists
           if (!dir.create(path, recursive = TRUE)) {
             stop("Cannot create ", path, " folder!")
           }
+
+          # write index
+          write.dcf(
+            setNames(data.frame(path, stringsAsFactors = FALSE),
+                     csum), file = "tmp/collateral", append = TRUE)
         }
         private$path <- path
       },

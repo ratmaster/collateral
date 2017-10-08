@@ -76,12 +76,16 @@ Progress <-
 
 
       set = function(value) {
+        currenttime <- as.numeric(proc.time())[3]
         private$values <- c(private$values, value * 100)
         if (private$ntime > 0) {
-          private$times <- c(private$times, as.numeric(proc.time())[3])
+          private$times <- c(private$times, currenttime)
         }
         private$n <- private$n + 1
-        self$print()
+        if (currenttime - private$flush > 0.2 || value == 1) {
+          private$flush <- currenttime
+          self$print()
+        }
       }
     ),
 
@@ -98,6 +102,8 @@ Progress <-
       ntitle = 0,
       ntime = 0,
       nbar = 0,
+      lastn = 0,
+      flush = 0,
 
 
       # methoden
@@ -194,11 +200,13 @@ Progress <-
       print_simple = function() {
         n <- private$n
         if (n > 1) {
-          i <- diff(round(private$values[(n - 1):n] / 100 * private$nbar))
+          i <- diff(round(private$values[c(private$lastn, n)] / 100 * private$nbar))
         } else {
           i <- round(private$values[1] / 100 * private$nbar)
+          private$lastn <- 1
         }
         if (i > 0) {
+          private$lastn <- n
           cat(rep(".", i), sep = "")
         }
       }
