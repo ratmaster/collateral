@@ -51,7 +51,7 @@ Up to now, `collateral` is not available on CRAN because it needs some more test
 
 ### Compute serially or parallely and show progress
 
-Compute $\pi$ by a [Monte Carlo experiment](https://en.wikipedia.org/wiki/Monte_Carlo_method) serially and parallely.
+Compute _Pi_ by a [Monte Carlo experiment](https://en.wikipedia.org/wiki/Monte_Carlo_method) serially and parallely.
 
 You can observe:
 
@@ -180,9 +180,10 @@ identical(v2, sqrt(x))
 
 ## Documentation
 
-Work in progress ...
+Work in progress ... Please have a look at:
 
 ```r
+library(collateral)
 ?collateral
 ?plapply
 ```
