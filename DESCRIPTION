@@ -1,8 +1,8 @@
 Package: collateral
 Type: Package
 Title: Reproducible, comfortable and fast processing with R
-Version: 0.1.1
-Date: 2017-10-07
+Version: 0.1.2
+Date: 2017-11-28
 Authors: "Fabian Raters <mail@ratmaster.de> [aut, cre]"
 Maintainer: Fabian Raters <mail@ratmaster.de>
 Description: Useful functions for dealing with processes and parallelization.

@@ -1,7 +1,7 @@
 # collateral: Reproducible, comfortable and fast processing with R
 [![Package-License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 
-Current version: 0.1.1 (07 October 2017)
+Current version: 0.1.2 (28 November 2017)
 
 ![](vignettes/pi_progress.gif)
 
@@ -10,7 +10,7 @@ Current version: 0.1.1 (07 October 2017)
 
 `collateral` provides you with functions you might miss in R, such as
 
-- `p*apply()` functions for reproducible parallel processing.
+- `p*apply()` functions for reproducible parallel processing with rich sets of features.
 - `%onerror%`, `%onwarning%` operators for handling errors in a more common way.
 - `throw()` let you _throw_ errors which can contain arbitrary objects - similar to Java.
 
@@ -21,7 +21,7 @@ However, this package is a proof of concept and please use it, at the moment, **
 
 ## Installation
 
-Up to now, `collateral` is not available on CRAN because it needs some more tests for errors to provide a high level of stability. However, you might install a testing version:
+Up to now, `collateral` is not available on CRAN because it needs some more tests for errors to provide a high level of stability. However, you might install (or update) the latest version:
 
 - Install the most recent version:
 
@@ -42,7 +42,7 @@ Up to now, `collateral` is not available on CRAN because it needs some more test
 ## Features / Examples
 
 - Run loops parallely in a simple way
-- Reproducible computations independent by the number of threads
+- Reproducible computations independent by the number of processes / workers
 - Progress bars, different styles
 - Estimated or elapsed time for results
 - Estimated time of availability (ETA) for results
@@ -55,11 +55,11 @@ Compute _Pi_ by a [Monte Carlo experiment](https://en.wikipedia.org/wiki/Monte_C
 
 You can observe:
 
-- `psapply()` returns the same result as `sapply()`
-- the first call computes with **one** thread
-- it shows a **progress bar** with **estimated time** and **ETA**
-- the second call computes with **three** threads
-- it shows a **simplified bar** with **new title** and **elapsed time** - suitable in batch mode
+- `psapply()` returns the same result as `sapply()`.
+- The first call computes with **one** process.
+- It shows a **progress bar** with **estimated time** and **ETA**.
+- The second call computes with **three** processes.
+- It shows a **simplified bar** with **new title** and **elapsed time** - suitable in batch mode.
 
 ```r
 library(collateral)
@@ -99,7 +99,7 @@ With `p*apply()`, you can pause (stop) any loop and resume it later.
 You can observe:
 
 - The option `resume = TRUE` lets `psapply()` record the results per iteration reproducible in a folder "tmp".
-- If your loops (e.g. user interaction) stops, you can **resume** the progress by rerunning the command again.
+- If your procedure stops (e.g. user interaction), you can **resume** the progress by rerunning the command again.
 - Of course, you can change and combine further parameters, e.g. you could set `threads = 2`.
 
 ```r
@@ -147,7 +147,7 @@ You can observe:
 
 - The second call of `psapply()` with `memo = TRUE` proceeds much faster
 - After computing _output1_ for _input1_, `psapply()` remembers _output1_ (in the cache)
-- When you function apply to _input1_ again, `psapply()` recalls _output1_ without re-computing it
+- When you the function to _input1_ again, `psapply()` recalls _output1_ without re-computing it
 
 ```r
 library(collateral)

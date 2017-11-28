@@ -102,24 +102,25 @@ plapply <- function(X, FUN, ...,
   }
 
   # determine random seed
-  if (is.null(seed)) {
-    seed <- .GlobalEnv$.Random.seed
-    if (is.null(seed)) {
-      seed <- 123456789
-    } else {
-      seed <- seed[length(seed)]
-    }
-  } else {
+  if (!is.null(seed)) {
     if (!is.numeric(seed)) {
-      stop("Parameter 'seed' (used for set.seed) must be an integer")
+      stop("Parameter 'seed' (used for set.seed()) must be an integer")
     }
+    set.seed(seed)
   }
+  preRandom.seed <- .GlobalEnv$.Random.seed
+  if (is.null(preRandom.seed)) {
+    stop("No random seed is set. Please provide parameter 'seed' or",
+         "use 'set.seed()'")
+  }
+  seed <- preRandom.seed[length(preRandom.seed)]
 
   # check length
   n <- length(X)
   if (n == 0) {
     # robust seed
     set.seed(seed - 1)
+
     return(list())
   }
   if (!is.list(X)) {
@@ -266,22 +267,12 @@ plapply <- function(X, FUN, ...,
 # run function with a list of inputs parallely
 runParallel <- function(id, FUN, x, seed, newseed, ...) {
   parFun <- function() {
-    #todo: store output separately - change silent = FALSE
-    # write output to out file
-    # sink(file = paste0("wiki_output.txt"), append = TRUE)
-
-    #todo: implement unique run id
-    # set run id
-    # options(.prid = c(getOption(".prid"), id))
-
-
     # set seed
     set.seed(seed + newseed * id)
 
     # iteratively apply function to list
     return(FUN(x, ...))
   }
-
   return(list(id = id,
               pid = mcparallel(expression(parFun()), mc.set.seed = FALSE,
                                silent = TRUE, mc.affinity = NULL,

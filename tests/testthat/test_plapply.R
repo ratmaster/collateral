@@ -141,13 +141,15 @@ test_that("plapply generates same random numbers per iteration", {
 test_that("plapply sets seed correctly", {
   skip_on_cran()
   set.seed(1234)
+  preRandom.seed <- .GlobalEnv$.Random.seed
+  set.seed(preRandom.seed[length(preRandom.seed)])
   y1 <- runif(1)
   set.seed(4567)
-  y2 <- plapply(1, runif,
+  y2 <- plapply(c(1, 1), runif,
                 seed = 1234,
                 sameSeed = TRUE,
                 simplify = TRUE)
-  expect_identical(y1, y2)
+  expect_identical(c(y1, y1), y2)
 })
 
 test_that("plapply memorizes function calls", {
